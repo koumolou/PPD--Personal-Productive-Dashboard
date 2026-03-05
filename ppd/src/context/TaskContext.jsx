@@ -1,21 +1,21 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from 'react';
 
 export const TaskContext = createContext();
 
-const TASKS_KEY = "ppd_tasks";
+const TASKS_KEY = 'ppd_tasks';
 
 const MOCK_TASKS = [
   {
     id: 1,
-    title: "work on my react js skill",
+    title: 'work on my react js skill',
     completed: true,
     completedAt: new Date().toISOString(),
   },
   {
     id: 2,
-    title: "learn typescript",
+    title: 'learn typescript',
     completed: true,
-    completedAt:new Date().toISOString() ,
+    completedAt: new Date().toISOString(),
   },
 ];
 
@@ -28,10 +28,7 @@ function normalizeDate(date) {
 
 function isToday(date) {
   if (!date) return false;
-  return (
-    normalizeDate(date).getTime() ===
-    normalizeDate(new Date()).getTime()
-  );
+  return normalizeDate(date).getTime() === normalizeDate(new Date()).getTime();
 }
 
 function isYesterday(date) {
@@ -54,7 +51,7 @@ function loadTasks() {
 
     return parsed;
   } catch (error) {
-    console.error("Failed to load tasks:", error);
+    console.error('Failed to load tasks:', error);
     return MOCK_TASKS;
   }
 }
@@ -63,15 +60,13 @@ function loadTasks() {
 function TaskProvider({ children }) {
   const [tasks, setTasks] = useState(() => loadTasks());
 
-
-
   // ---------- ACTIONS ----------
   const addTask = (title) => {
     const newTask = {
       id: Date.now(),
       title,
       completed: false,
-      completedAt:null ,
+      completedAt: null,
     };
 
     setTasks((prev) => [...prev, newTask]);
@@ -81,79 +76,69 @@ function TaskProvider({ children }) {
   const totalTasks = tasks.length;
 
   const completedTasksArray = tasks.filter(
-    (task) => task.completed && task.completedAt
+    (task) => task.completed && task.completedAt,
   );
 
-  
-// ---------- INSIGHT: MOST PRODUCTIVE DAY ----------
-let mostProductiveDayInsight = null;
+  // ---------- INSIGHT: MOST PRODUCTIVE DAY ----------
+  let mostProductiveDayInsight = null;
 
-if (completedTasksArray.length === 0) {
-  mostProductiveDayInsight = {
-    day: null,
-    count: 0,
-    message: "No productivity data yet",
-  };
-} else {
-  const counts = {};
-  let mostFrequentDay = null;
-  let maxCount = 0;
+  if (completedTasksArray.length === 0) {
+    mostProductiveDayInsight = {
+      day: null,
+      count: 0,
+      message: 'No productivity data yet',
+    };
+  } else {
+    const counts = {};
+    let mostFrequentDay = null;
+    let maxCount = 0;
 
-  completedTasksArray.forEach((task) => {
-    const date = new Date(task.completedAt);
-    const weekday = date.toLocaleDateString("en-US", {
-      weekday: "long",
-      timeZone: "UTC",
+    completedTasksArray.forEach((task) => {
+      const date = new Date(task.completedAt);
+      const weekday = date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        timeZone: 'UTC',
+      });
+
+      counts[weekday] = (counts[weekday] || 0) + 1;
+
+      if (counts[weekday] > maxCount) {
+        maxCount = counts[weekday];
+        mostFrequentDay = weekday;
+      }
     });
 
-    counts[weekday] = (counts[weekday] || 0) + 1;
-
-    if (counts[weekday] > maxCount) {
-      maxCount = counts[weekday];
-      mostFrequentDay = weekday;
-    }
-  });
-
-  mostProductiveDayInsight = {
-    day: mostFrequentDay,
-    count: maxCount,
-    message: `Your most productive day is ${mostFrequentDay}`,
-  };
-}
-
-
-
-
-
+    mostProductiveDayInsight = {
+      day: mostFrequentDay,
+      count: maxCount,
+      message: `Your most productive day is ${mostFrequentDay}`,
+    };
+  }
 
   const completedTasksCount = completedTasksArray.length;
-  
- 
 
   const pendingTasks = totalTasks - completedTasksCount;
 
   const completionPercentage =
-    totalTasks === 0
-      ? 0
-      : (completedTasksCount / totalTasks) * 100;
+    totalTasks === 0 ? 0 : (completedTasksCount / totalTasks) * 100;
 
   // ---------- TIME-BASED COUNTS ----------
   const todayCompletedCount = completedTasksArray.filter((task) =>
-    isToday(task.completedAt)
+    isToday(task.completedAt),
   ).length;
 
   const yesterdayCompletedCount = completedTasksArray.filter((task) =>
-    isYesterday(task.completedAt)
+    isYesterday(task.completedAt),
   ).length;
 
   // ---------- INSIGHT: TODAY VS YESTERDAY ----------
   const difference = todayCompletedCount - yesterdayCompletedCount;
 
-  let trend = "same";
-  let message = "You completed the same number of tasks as yesterday";
+  let trend = 'same';
+  let message = 'You completed the same number of tasks as yesterday';
 
   if (difference > 0) {
-    trend = "up";
+    trend = 'up';
 
     if (yesterdayCompletedCount === 0) {
       message = `Great start! You completed ${todayCompletedCount} task(s) today`;
@@ -163,8 +148,8 @@ if (completedTasksArray.length === 0) {
   }
 
   if (difference < 0) {
-    trend = "down";
-    message = "You completed fewer tasks than yesterday";
+    trend = 'down';
+    message = 'You completed fewer tasks than yesterday';
   }
 
   const todayVsYesterdayInsight = {
