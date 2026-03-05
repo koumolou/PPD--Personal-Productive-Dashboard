@@ -98,7 +98,7 @@ interface TodayVsYesterdayInsight{
  interface ModalContextType {
     isOpen : boolean,
     modalContent : React.ReactNode,
-    openModal : (content : string) => void
+    openModal : (content : React.ReactNode) => void
     closeModal : ()=> void 
  }
 
