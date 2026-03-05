@@ -42,14 +42,14 @@ interface TaskContext {
     completionPercentage : number, 
     todayCompletedCount : number,
     yesterdayCompletedCount : number,
-    todayVsYesterdayInsight : todayVsYesterdayInsight,
-    mostProductiveDayInsight : mostProductiveDayInsight
+    todayVsYesterdayInsight : TodayVsYesterdayInsight,
+    mostProductiveDayInsight : MostProductiveDayInsight
 
 
 
 }
 
-interface todayVsYesterdayInsight{
+interface TodayVsYesterdayInsight{
      today : number,
      yesterday:  number,
      difference : number,
@@ -58,8 +58,17 @@ interface todayVsYesterdayInsight{
 
     }
 
- interface mostProductiveDayInsight {
+ interface MostProductiveDayInsight {
     day : string | null,
     count: number,
     message : string
+ }
+
+ interface NoteContextType {
+    note :Note[],
+    setNotes :  React.Dispatch<React.SetStateAction<Note[]>>,
+    addNote : (title : string, content : string) => void,
+    updateNote: (id : string, title : string, content: string) => void,
+    deleteNote: (id : string) => void,
+
  }
