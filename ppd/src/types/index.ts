@@ -65,7 +65,7 @@ interface TodayVsYesterdayInsight{
  }
 
  interface NoteContextType {
-    note :Note[],
+    notes :Note[],
     setNotes :  React.Dispatch<React.SetStateAction<Note[]>>,
     addNote : (title : string, content : string) => void,
     updateNote: (id : string, title : string, content: string) => void,
@@ -81,7 +81,7 @@ interface TodayVsYesterdayInsight{
     activeStreakCount : number,
     habitCompletion : string | number,
     getActiveHabitsCount : ()=>number,
-    getCurrentStreak : (history : string ) => number,
+    getCurrentStreak : (history : string[] ) => number,
     addHabit : (title : string) => void
 
  
@@ -91,13 +91,13 @@ interface TodayVsYesterdayInsight{
  }
 
  interface UserContextType {
-    user : User[],
-    setUser : React.Dispatch<React.SetStateAction<User[]>>
+    user : User,
+    setUser : React.Dispatch<React.SetStateAction<User>>
  }
 
  interface ModalContextType {
     isOpen : boolean,
-    modalContent : any,
+    modalContent : React.ReactNode,
     openModal : (content : string) => void
     closeModal : ()=> void 
  }
