@@ -113,8 +113,8 @@ function DashboardInsights() {
                 todayVsYesterdayInsight.trend === 'up'
                   ? 'text-green-600'
                   : todayVsYesterdayInsight.trend === 'down'
-                  ? 'text-red-600'
-                  : 'text-gray-600'
+                    ? 'text-red-600'
+                    : 'text-gray-600'
               }`}
             >
               {todayVsYesterdayInsight.message}
@@ -150,16 +150,20 @@ function DashboardInsights() {
       <section>
         <h2 className="text-xl font-semibold mb-4">Activity</h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
           {/* Habits */}
-          <div>
-            <h3 className="text-center font-medium mb-3">Habits</h3>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-center md:text-left text-gray-200">
+              Habits
+            </h3>
             <HabitList habits={habits} setHabits={setHabits} today={today} />
           </div>
 
           {/* Tasks */}
-          <div>
-            <h3 className="text-center font-medium mb-3">Tasks</h3>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-center md:text-left text-gray-200">
+              Tasks
+            </h3>
             <TaskList tasks={tasks} setTasks={setTasks} />
           </div>
         </div>

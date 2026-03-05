@@ -24,7 +24,6 @@ html {
   }
 }
 
-/* Optional: make headings a bit smaller too */
 h1, h2, h3, h4 {
   @apply font-medium tracking-tight;
 }
