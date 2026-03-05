@@ -84,8 +84,28 @@ interface TodayVsYesterdayInsight{
     getCurrentStreak : (history : string ) => number,
     addHabit : (title : string) => void
 
+ 
 
 
 
+ }
+
+ interface UserContextType {
+    user : User[],
+    setUser : React.Dispatch<React.SetStateAction<User[]>>
+ }
+
+ interface ModalContextType {
+    isOpen : boolean,
+    modalContent : any,
+    openModal : (content : string) => void
+    closeModal : ()=> void 
+ }
+
+ interface SidebarContextType {
+    isSidebarOpen : boolean,
+    toggleSidebar : () => void,
+    openSidebar : () => void,
+    closeSidebar : () => void 
 
  }

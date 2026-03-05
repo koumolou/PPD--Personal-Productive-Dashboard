@@ -24,7 +24,7 @@ function loadHabits() {
         (h) =>
           typeof h.id === 'number' &&
           typeof h.title === 'string' &&
-          Array.isArray(h.history)
+          Array.isArray(h.history),
       )
     ) {
       return MOCK_HABITS;
@@ -93,7 +93,6 @@ function HabitProvider({ children }) {
         habits,
         setHabits,
         today,
-        totalHabits,
         habitDoneToday,
         activeStreakCount,
         habitCompletion,
