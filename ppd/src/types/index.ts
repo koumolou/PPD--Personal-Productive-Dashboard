@@ -72,3 +72,20 @@ interface TodayVsYesterdayInsight{
     deleteNote: (id : string) => void,
 
  }
+
+ interface HabitContextType {
+    habits : Habit[],
+    setHabits : React.Dispatch<React.SetStateAction<Habit[]>>,
+    today : string,
+    habitDoneToday : number, 
+    activeStreakCount : number,
+    habitCompletion : string | number,
+    getActiveHabitsCount : ()=>number,
+    getCurrentStreak : (history : string ) => number,
+    addHabit : (title : string) => void
+
+
+
+
+
+ }
