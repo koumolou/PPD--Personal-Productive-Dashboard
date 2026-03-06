@@ -1,10 +1,13 @@
 import { createContext, useState, useEffect } from 'react';
+import type { NoteContextType, Note } from '../types';
+import type { ReactNode } from 'react';
 
-export const NotesContext = createContext();
+
+export const NotesContext = createContext <NoteContextType | null > (null);
 
 const mock_keys = 'ppd_notes';
 
-const mock = [
+const mock : Note [] = [
   {
     id: crypto.randomUUID(),
     title: '2026 new year plan',
@@ -32,7 +35,7 @@ const mock = [
   },
 ];
 
-function loadNotes() {
+function loadNotes() : Note[] {
   try {
     const raw = localStorage.getItem(mock_keys);
     if (!raw) return mock;
@@ -46,14 +49,19 @@ function loadNotes() {
   }
 }
 
-function NotesProvider({ children }) {
+interface NoteProp {
+  children : ReactNode
+}
+
+
+function NotesProvider({ children } : NoteProp) {
   const [notes, setNotes] = useState(() => loadNotes());
 
-  function deleteNote(id) {
+  function deleteNote(id : string) : void  {
     setNotes(notes.filter((note) => note.id !== id));
   }
 
-  function updateNote(id, title, content) {
+  function updateNote(id : string, title : string, content : string  ) : void  {
     setNotes((prev) =>
       prev.map((note) =>
         note.id === id
@@ -63,11 +71,11 @@ function NotesProvider({ children }) {
     );
   }
 
-  function addNote(title, content) {
+  function addNote(title : string,  content : string) : void  {
     const now = new Date().toISOString();
 
     const newNote = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       title,
       content,
       createdAt: now,
@@ -82,7 +90,7 @@ function NotesProvider({ children }) {
   }, [notes]);
 
   return (
-    <NotesContext.Provider value={{ notes, addNote, updateNote, deleteNote }}>
+    <NotesContext.Provider value={{ notes, addNote, updateNote, deleteNote,  }}>
       {children}
     </NotesContext.Provider>
   );

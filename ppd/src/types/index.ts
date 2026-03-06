@@ -2,7 +2,7 @@ export interface Task  {
   id : number,
   title : string,
   completed : boolean,
-  completedAt : string | null
+  completedAt :  string | null
 
 
 }
@@ -32,9 +32,8 @@ export interface User  {
       joinedDate: string
 }
 
-export interface TaskContext {
+export interface TaskContextType {
     tasks : Task[],
-    setTasks : React.Dispatch<React.SetStateAction<Task[]>>
     addTask :  (title : string) => void,
     totalTasks : number, 
     completedTasksCount : number,
@@ -53,7 +52,7 @@ export interface TaskContext {
      today : number,
      yesterday:  number,
      difference : number,
-     trend : "up" | "down" | "same",
+     trend : "up" | "down" | "same", 
     message : string
 
     }
@@ -66,7 +65,7 @@ export  interface MostProductiveDayInsight {
 
  export interface NoteContextType {
     notes :Note[],
-    setNotes :  React.Dispatch<React.SetStateAction<Note[]>>,
+    
     addNote : (title : string, content : string) => void,
     updateNote: (id : string, title : string, content: string) => void,
     deleteNote: (id : string) => void,
@@ -75,11 +74,10 @@ export  interface MostProductiveDayInsight {
 
   export interface HabitContextType {
     habits : Habit[],
-    setHabits : React.Dispatch<React.SetStateAction<Habit[]>>,
     today : string,
     habitDoneToday : number, 
     activeStreakCount : number,
-    habitCompletion : string | number,
+    habitCompletion : number
     getActiveHabitsCount : ()=>number,
     getCurrentStreak : (history : string[] ) => number,
     addHabit : (title : string) => void
@@ -92,7 +90,8 @@ export  interface MostProductiveDayInsight {
 
 export interface UserContextType {
     user : User,
-    setUser : React.Dispatch<React.SetStateAction<User>>
+    updateUser : (newuser : Partial<User>) => void, 
+    
  }
 
  export interface ModalContextType {
@@ -109,3 +108,5 @@ export interface UserContextType {
     closeSidebar : () => void 
 
  }
+
+ 
