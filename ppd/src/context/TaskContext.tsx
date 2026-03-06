@@ -1,10 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
+import type { TaskContextType, Task, MostProductiveDayInsight} from '../types';
+import type { ReactNode} from 'react';
 
-export const TaskContext = createContext();
+export const TaskContext = createContext <TaskContextType | null > (null);
 
 const TASKS_KEY = 'ppd_tasks';
 
-const MOCK_TASKS = [
+const MOCK_TASKS : Task [] = [
   {
     id: 1,
     title: 'work on my react js skill',
@@ -19,29 +21,31 @@ const MOCK_TASKS = [
   },
 ];
 
-// ---------- DATE HELPERS ----------
-function normalizeDate(date) {
+
+function normalizeDate(date : Date | string ) : Date{
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
   return d;
 }
 
-function isToday(date) {
+function isToday(date : string | null ) : boolean{
   if (!date) return false;
+
   return normalizeDate(date).getTime() === normalizeDate(new Date()).getTime();
 }
 
-function isYesterday(date) {
+function isYesterday(date : string | null) : boolean  {
   if (!date) return false;
 
   const yesterday = normalizeDate(new Date());
   yesterday.setDate(yesterday.getDate() - 1);
 
+
   return normalizeDate(date).getTime() === yesterday.getTime();
 }
 
 // ---------- STORAGE ----------
-function loadTasks() {
+function loadTasks() : Task [] {
   try {
     const raw = localStorage.getItem(TASKS_KEY);
     if (!raw) return MOCK_TASKS;
@@ -56,12 +60,17 @@ function loadTasks() {
   }
 }
 
+interface TaskProp {
+  children : ReactNode
+}
+
+
 // ---------- PROVIDER ----------
-function TaskProvider({ children }) {
+function TaskProvider({ children } : TaskProp) {
   const [tasks, setTasks] = useState(() => loadTasks());
 
   // ---------- ACTIONS ----------
-  const addTask = (title) => {
+  const addTask = (title : string) => {
     const newTask = {
       id: Date.now(),
       title,
@@ -80,7 +89,7 @@ function TaskProvider({ children }) {
   );
 
   // ---------- INSIGHT: MOST PRODUCTIVE DAY ----------
-  let mostProductiveDayInsight = null;
+  let mostProductiveDayInsight : MostProductiveDayInsight
 
   if (completedTasksArray.length === 0) {
     mostProductiveDayInsight = {
@@ -89,7 +98,7 @@ function TaskProvider({ children }) {
       message: 'No productivity data yet',
     };
   } else {
-    const counts = {};
+    const counts : Record<string, number> = {};
     let mostFrequentDay = null;
     let maxCount = 0;
 
@@ -134,7 +143,7 @@ function TaskProvider({ children }) {
   // ---------- INSIGHT: TODAY VS YESTERDAY ----------
   const difference = todayCompletedCount - yesterdayCompletedCount;
 
-  let trend = 'same';
+  let  trend : "up" | "down" | "same" = 'same'
   let message = 'You completed the same number of tasks as yesterday';
 
   if (difference > 0) {
@@ -170,7 +179,7 @@ function TaskProvider({ children }) {
     <TaskContext.Provider
       value={{
         tasks,
-        setTasks,
+    
         addTask,
 
         totalTasks,

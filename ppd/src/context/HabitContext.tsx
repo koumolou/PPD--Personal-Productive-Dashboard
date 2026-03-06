@@ -1,17 +1,19 @@
 import { useState, createContext, useEffect } from 'react';
+import type { HabitContextType, Habit } from '../types';
+import type { ReactNode } from 'react';
 
-export const HabitContext = createContext();
+export const HabitContext = createContext <HabitContextType | null> (null);
 
 const HABITS_KEY = 'ppd_habits';
 const today = new Date().toISOString().slice(0, 10);
 
-const MOCK_HABITS = [
+const MOCK_HABITS : Habit[] = [
   { id: 1, title: 'Working out', history: [today] },
   { id: 2, title: 'Reading', history: [today] },
   { id: 3, title: 'Meditation', history: [] },
 ];
 
-function loadHabits() {
+function loadHabits() : Habit[] {
   try {
     const raw = localStorage.getItem(HABITS_KEY);
     if (!raw) return MOCK_HABITS;
@@ -37,10 +39,13 @@ function loadHabits() {
   }
 }
 
-function HabitProvider({ children }) {
+interface HabitProp {
+  children : ReactNode
+}
+function HabitProvider({ children } : HabitProp) {
   const [habits, setHabits] = useState(() => loadHabits());
 
-  const addHabit = (title) => {
+  const addHabit = (title : string) => {
     const newHabit = {
       id: Date.now(),
       title,
@@ -54,14 +59,14 @@ function HabitProvider({ children }) {
   const habitDoneToday = habits.filter((h) => h.history.includes(today)).length;
   const activeStreakCount = habitDoneToday;
   const habitCompletion =
-    totalHabits === 0 ? '0%' : (habitDoneToday / totalHabits) * 100;
+    totalHabits === 0 ? 0 : (habitDoneToday / totalHabits) * 100;
 
   // Streak helpers
   const DAY_MS = 24 * 60 * 60 * 1000;
-  const addDays = (date, days) =>
+  const addDays = (date : Date, days : number) =>
     new Date(date.getTime() + days * DAY_MS).toISOString().slice(0, 10);
 
-  const getCurrentStreak = (history) => {
+  const getCurrentStreak = (history : string[]  ) => {
     if (!history.includes(today)) return 0;
 
     let streak = 1;
@@ -80,7 +85,7 @@ function HabitProvider({ children }) {
     return streak;
   };
 
-  const getActiveHabitsCount = () =>
+  const getActiveHabitsCount = () : number  =>
     habits.filter((h) => h.history.includes(today)).length;
 
   useEffect(() => {
@@ -91,7 +96,7 @@ function HabitProvider({ children }) {
     <HabitContext.Provider
       value={{
         habits,
-        setHabits,
+   
         today,
         habitDoneToday,
         activeStreakCount,
