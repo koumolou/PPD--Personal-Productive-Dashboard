@@ -1,4 +1,4 @@
-interface Task  {
+export interface Task  {
   id : number,
   title : string,
   completed : boolean,
@@ -7,7 +7,7 @@ interface Task  {
 
 }
 
-interface Note  {
+export interface Note  {
     id : string,
     title: string,
     content: string,
@@ -17,14 +17,14 @@ interface Note  {
 
 }
 
-interface Habit  {
+export interface Habit  {
     id: number,
     title: string,
     history : string []
 
 }
  
-interface User  {
+export interface User  {
 
       username: string,
       email : string,
@@ -32,7 +32,7 @@ interface User  {
       joinedDate: string
 }
 
-interface TaskContext {
+export interface TaskContext {
     tasks : Task[],
     setTasks : React.Dispatch<React.SetStateAction<Task[]>>
     addTask :  (title : string) => void,
@@ -49,7 +49,7 @@ interface TaskContext {
 
 }
 
-interface TodayVsYesterdayInsight{
+ export interface TodayVsYesterdayInsight{
      today : number,
      yesterday:  number,
      difference : number,
@@ -58,13 +58,13 @@ interface TodayVsYesterdayInsight{
 
     }
 
- interface MostProductiveDayInsight {
+export  interface MostProductiveDayInsight {
     day : string | null,
     count: number,
     message : string
  }
 
- interface NoteContextType {
+ export interface NoteContextType {
     notes :Note[],
     setNotes :  React.Dispatch<React.SetStateAction<Note[]>>,
     addNote : (title : string, content : string) => void,
@@ -73,7 +73,7 @@ interface TodayVsYesterdayInsight{
 
  }
 
- interface HabitContextType {
+  export interface HabitContextType {
     habits : Habit[],
     setHabits : React.Dispatch<React.SetStateAction<Habit[]>>,
     today : string,
@@ -90,19 +90,19 @@ interface TodayVsYesterdayInsight{
 
  }
 
- interface UserContextType {
+export interface UserContextType {
     user : User,
     setUser : React.Dispatch<React.SetStateAction<User>>
  }
 
- interface ModalContextType {
+ export interface ModalContextType {
     isOpen : boolean,
     modalContent : React.ReactNode,
     openModal : (content : React.ReactNode) => void
     closeModal : ()=> void 
  }
 
- interface SidebarContextType {
+  export interface SidebarContextType {
     isSidebarOpen : boolean,
     toggleSidebar : () => void,
     openSidebar : () => void,
