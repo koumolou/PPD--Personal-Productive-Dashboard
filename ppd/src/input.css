@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Optional: tighten spacing globally (as we discussed earlier for making things feel less "big") */
+@theme {
+  --spacing: 0.225rem;   /* default is 0.25rem → makes padding/margin/gap smaller */
+}
+
+/* Optional: set smaller default text size */
+html {
+  font-size: 15px;       /* or 14px, 62.5% etc. — scales everything rem-based */
+  @apply antialiased;
+}
+
+/* Your other custom base styles, if any */
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100;
+  }
+}
+
+/* Custom components/utilities go here if needed */
+@layer components {
+  .card {
+    @apply p-4 bg-gray-800 rounded-lg shadow;
+  }
+}
