@@ -8,177 +8,129 @@ import Progressbar from './progressbar';
 import HabitList from './HabitList';
 import TaskList from './TaskList';
 
-
 function DashboardInsights() {
- 
-const context = useContext(TaskContext);
-if (!context) throw new Error ("");
- const {
-    setTasks,
-    tasks,
-    totalTasks,
-    completedTasksCount,
-    pendingTasks,
-    completionPercentage,
-    todayVsYesterdayInsight,
-    mostProductiveDayInsight,
-  } = context; 
-
-  const context1 = useContext(HabitContext);
-  if(!context) throw new Error (""); 
-
+  const contexttask = useContext(TaskContext);
+  if (!contexttask) throw new Error('');
   const {
-    habits,
-    setHabits,
-    today,
-    totalHabits,
-    activeStreakCount,
-    habitDoneToday,
-  } = context1
+    setTasks, tasks, totalTasks, completedTasksCount,
+    pendingTasks, completionPercentage,
+    todayVsYesterdayInsight, mostProductiveDayInsight,
+  } = contexttask;
+
+  const contexthabit = useContext(HabitContext);
+  if (!contexthabit) throw new Error('');
+  const { habits, setHabits, today, totalHabits, activeStreakCount, habitDoneToday } = contexthabit;
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
+
       {/* ===================== OVERVIEW ===================== */}
       <section>
-        <h2 className="text-xl font-semibold mb-6">Overview</h2>
+        <h2 className="text-lg font-semibold text-black mb-5">Overview</h2>
 
         {/* Task Metrics */}
-        <div className="mb-8">
-          <h3 className="text-lg font-medium mb-3">Tasks</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Statscard icon="📝" title="Tasks Created" trend={totalTasks} />
-            <Statscard
-              icon="✅"
-              title="Tasks Completed"
-              trend={completedTasksCount}
-               value = {null}
-            />
-            <Statscard icon="⏳" title="Tasks Pending" trend={pendingTasks}  />
-            <Statscard
-              icon="📊"
-              title="Completion %"
-              trend={`${completionPercentage.toFixed(0)}%`}
-              value = {null}
-            />
+        <div className="mb-6">
+          <p className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-3">Tasks</p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <Statscard icon="📝" title="Created" trend={totalTasks} />
+            <Statscard icon="✅" title="Completed" trend={completedTasksCount} />
+            <Statscard icon="⏳" title="Pending" trend={pendingTasks} />
+            <Statscard icon="📊" title="Completion" trend={`${completionPercentage.toFixed(0)}%`} />
           </div>
         </div>
 
         {/* Habit Metrics */}
         <div>
-          <h3 className="text-lg font-medium mb-3">Habits</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Statscard icon="📋" title="Total Habits" trend={totalHabits} />
+          <p className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-3">Habits</p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <Statscard icon="📋" title="Total" trend={totalHabits} />
             <Statscard icon="✅" title="Done Today" trend={habitDoneToday} />
-            <Statscard
-              icon="🔥"
-              title="Active Streaks"
-              trend={activeStreakCount}
-              value = {null}
-            />
+            <Statscard icon="🔥" title="Streaks" trend={activeStreakCount} />
             <Statscard
               icon="📈"
-              title="Completion %"
-              trend={`${
-                totalHabits === 0
-                  ? 0
-                  : ((habitDoneToday / totalHabits) * 100).toFixed(0)
-              }%`}
-              value = {null}
+              title="Completion"
+              trend={`${totalHabits === 0 ? 0 : ((habitDoneToday / totalHabits) * 100).toFixed(0)}%`}
             />
-          </div>
-        </div>
-      </section>
-
-      {/* ===================== INSIGHTS ===================== */}
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Insights</h2>
-
-        <div className="space-y-4">
-          {/* Most Productive Day */}
-          <div className="p-4 rounded-lg bg-white shadow flex items-center gap-3">
-            <span className="text-2xl">📅</span>
-            <div>
-              <p className="font-medium text-gray-800">
-                {mostProductiveDayInsight.message}
-              </p>
-
-              {mostProductiveDayInsight.day && (
-                <p className="text-sm text-gray-500">
-                  Completed {mostProductiveDayInsight.count} task(s) on{' '}
-                  {mostProductiveDayInsight.day}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Today vs Yesterday */}
-          <div className="p-4 rounded-lg bg-white shadow flex items-center gap-3">
-            <span className="text-2xl">
-              {todayVsYesterdayInsight.trend === 'up' && '⬆️'}
-              {todayVsYesterdayInsight.trend === 'down' && '⬇️'}
-              {todayVsYesterdayInsight.trend === 'same' && '➖'}
-            </span>
-
-            <p
-              className={`font-medium ${
-                todayVsYesterdayInsight.trend === 'up'
-                  ? 'text-green-600'
-                  : todayVsYesterdayInsight.trend === 'down'
-                    ? 'text-red-600'
-                    : 'text-gray-600'
-              }`}
-            >
-              {todayVsYesterdayInsight.message}
-            </p>
           </div>
         </div>
       </section>
 
       {/* ===================== PROGRESS ===================== */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">Progress</h2>
-
-        <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-black mb-5">Progress</h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-5">
           <Progressbar
-            value={
-              totalTasks === 0 ? 0 : (completedTasksCount / totalTasks) * 100
-            }
-            color="bg-green-500"
+            value={totalTasks === 0 ? 0 : (completedTasksCount / totalTasks) * 100}
+            color="bg-teal-500"
             label="Tasks Completed"
             showpercent={true}
           />
-
           <Progressbar
             value={totalHabits === 0 ? 0 : (habitDoneToday / totalHabits) * 100}
-            color="bg-blue-500"
+            color="bg-green-500"
             label="Habits Done Today"
             showpercent={true}
           />
         </div>
       </section>
 
-      {/* ===================== ACTIVITY ===================== */}
+      {/* ===================== INSIGHTS ===================== */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">Activity</h2>
+        <h2 className="text-lg font-semibold text-black mb-5">Insights</h2>
+        <div className="space-y-3">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
-          {/* Habits */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-center md:text-left text-gray-200">
-              Habits
-            </h3>
-            <HabitList habits={habits} setHabits={setHabits} today={today} />
+          {/* Most Productive Day */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-xl shrink-0">
+              📅
+            </div>
+            <div>
+              <p className="text-sm font-medium text-white">
+                {mostProductiveDayInsight.message}
+              </p>
+              {mostProductiveDayInsight.day && (
+                <p className="text-xs text-slate-400 mt-1">
+                  {mostProductiveDayInsight.count} task(s) completed on {mostProductiveDayInsight.day}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Tasks */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-center md:text-left text-gray-200">
-              Tasks
-            </h3>
+          {/* Today vs Yesterday */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 ${
+              todayVsYesterdayInsight.trend === 'up' ? 'bg-green-500/10' :
+              todayVsYesterdayInsight.trend === 'down' ? 'bg-red-500/10' : 'bg-slate-800'
+            }`}>
+              {todayVsYesterdayInsight.trend === 'up' && '⬆️'}
+              {todayVsYesterdayInsight.trend === 'down' && '⬇️'}
+              {todayVsYesterdayInsight.trend === 'same' && '➖'}
+            </div>
+            <p className={`text-sm font-medium ${
+              todayVsYesterdayInsight.trend === 'up' ? 'text-green-400' :
+              todayVsYesterdayInsight.trend === 'down' ? 'text-red-400' : 'text-slate-400'
+            }`}>
+              {todayVsYesterdayInsight.message}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== ACTIVITY ===================== */}
+      <section>
+        <h2 className="text-lg font-semibold text-black mb-5">Activity</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-slate-300 mb-4">Habits</h3>
+            <HabitList habits={habits} setHabits={setHabits} today={today} />
+          </div>
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-slate-300 mb-4">Tasks</h3>
             <TaskList tasks={tasks} setTasks={setTasks} />
           </div>
         </div>
       </section>
+
     </div>
   );
 }

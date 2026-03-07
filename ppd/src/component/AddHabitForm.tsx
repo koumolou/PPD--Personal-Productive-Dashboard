@@ -1,12 +1,10 @@
 import { useState } from 'react';
 
-
-interface AddHabitFormProps{
-  AddHabitForm : (addHabit : string) => void 
+interface AddHabitFormProps {
+  addHabit: (addHabit: string) => void;
 }
 
-
-function AddHabitForm({ addHabit } : AddHabitFormProps ) {
+function AddHabitForm({ addHabit }: AddHabitFormProps) {
   const [showModal, setShowModal] = useState(false);
   const [habitText, setHabitText] = useState('');
 
@@ -14,56 +12,72 @@ function AddHabitForm({ addHabit } : AddHabitFormProps ) {
   const handleClose = () => setShowModal(false);
 
   const handleSubmit = () => {
-    if (habitText.trim() === '') return; // ignore empty input
-    addHabit(habitText); // call parent function
-    setHabitText(''); // clear input
-    handleClose(); // close modal
+    if (habitText.trim() === '') return;
+    addHabit(habitText);
+    setHabitText('');
+    handleClose();
   };
 
   return (
     <>
-      {/* Button to open modal */}
+      {/* Trigger Button */}
       <button
         onClick={handleOpen}
-        className="p-3 mb-2 rounded bg-blue-500 text-white hover:bg-blue-800 transition"
         type="button"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-white text-sm font-medium transition"
       >
-        Add Habit
+        + Add Habit
       </button>
 
-      {/* Modal Overlay */}
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Dark background */}
+          {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black bg-opacity-50"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={handleClose}
-          ></div>
+          />
 
           {/* Modal Content */}
-          <div className="relative bg-white rounded shadow-lg w-96 max-w-full p-6 z-10 flex flex-col space-y-4">
-            <h2 className="text-xl font-semibold">Add New Habit</h2>
+          <div className="relative z-10 bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl flex flex-col space-y-5 mx-4">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-white font-semibold text-lg">New Habit</h2>
+              <button
+                onClick={handleClose}
+                className="text-slate-400 hover:text-white hover:bg-slate-800 p-1.5 rounded-lg transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Input */}
             <input
               type="text"
-              placeholder="Write task here"
+              placeholder="e.g. Read for 30 minutes"
               value={habitText}
               onChange={(e) => setHabitText(e.target.value)}
-              className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+              autoFocus
+              className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
             />
-            <div className="flex justify-end space-x-2">
+
+            {/* Actions */}
+            <div className="flex justify-end gap-3">
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 transition"
+                className="px-4 py-2 rounded-xl text-sm text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-700 transition"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="px-4 py-2 rounded bg-green-500 text-white hover:bg-green-600 transition"
+                className="px-4 py-2 rounded-xl text-sm bg-teal-500 hover:bg-teal-400 text-white font-medium transition"
               >
-                Submit
+                Add Habit
               </button>
             </div>
           </div>

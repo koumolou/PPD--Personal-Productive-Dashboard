@@ -1,24 +1,20 @@
-import { useContext, useState,  } from 'react';
-import type {FormEvent} from 'react'
-import { NotesContext, } from '../context/NotesContext';
+import { useContext, useState } from 'react';
+import type { SyntheticEvent } from 'react';
+import { NotesContext } from '../context/NotesContext';
 
 const AddNoteForm = () => {
   const context = useContext(NotesContext);
   if (!context) throw new Error('NotesContext must be used within a NotesProvider');
-
   const { addNote } = context;
 
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-
     if (!title.trim() || !content.trim()) return;
-
-    addNote( title, content ); // Pass object if your context expects a Note or adapt accordingly
-
+    addNote(title, content);
     setTitle('');
     setContent('');
     setIsOpen(false);
@@ -26,53 +22,75 @@ const AddNoteForm = () => {
 
   return (
     <>
+      {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-white text-sm font-medium transition"
       >
         + Add Note
       </button>
 
+      {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="mb-4 text-lg font-semibold">Add New Note</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsOpen(false)}
+          />
+
+          {/* Modal Content */}
+          <div className="relative z-10 bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl mx-4">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-white font-semibold text-lg">New Note</h2>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="text-slate-400 hover:text-white hover:bg-slate-800 p-1.5 rounded-lg transition"
+              >
+                ✕
+              </button>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Title */}
               <input
                 type="text"
                 placeholder="Note title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                autoFocus
+                className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
               />
 
+              {/* Content */}
               <textarea
-                placeholder="Note content"
+                placeholder="Write your note here..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={4}
-                className="w-full resize-none rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full resize-none bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
               />
 
-              <div className="flex justify-end gap-2">
+              {/* Actions */}
+              <div className="flex justify-end gap-3 pt-1">
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="rounded-md border px-4 py-2 hover:bg-gray-100"
+                  className="px-4 py-2 rounded-xl text-sm text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-700 transition"
                 >
                   Cancel
                 </button>
-
                 <button
                   type="submit"
-                  className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  className="px-4 py-2 rounded-xl text-sm bg-teal-500 hover:bg-teal-400 text-white font-medium transition"
                 >
-                  Save
+                  Save Note
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}

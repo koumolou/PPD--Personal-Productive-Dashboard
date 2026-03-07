@@ -3,40 +3,43 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 interface ProfileHeaderProps {
-  statuss?: string; // the status text you display under the username
+  statuss?: string;
 }
 
 function ProfileHeader({ statuss }: ProfileHeaderProps) {
   const [icons, setIcons] = useState(false);
   const context = useContext(UserContext);
-
   if (!context) throw new Error('UserContext must be used within its Provider');
-
   const { user } = context;
   const navigate = useNavigate();
 
   return (
-    <>
-      {/* Header */}
-      <div className="flex justify-between items-center bg-slate-900 p-4 rounded-xl shadow mx-2 mb-4">
-        {/* Left side */}
-        <div className="flex items-center space-x-4">
-          <img
-            src={user.avatar}
-            alt="Profile"
-            className="w-14 h-14 rounded-full border border-slate-700"
-          />
+    <div className="relative">
+      {/* Header Card */}
+      <div className="flex justify-between items-center bg-slate-900 border border-slate-800 px-5 py-4 rounded-2xl">
+        
+        {/* Left — Avatar + Info */}
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-teal-500 border-2 border-slate-700 flex items-center justify-center text-white font-bold text-lg shrink-0">
+            {user.avatar ? (
+              <img src={user.avatar} alt="Profile" className="w-full h-full rounded-full object-cover" />
+            ) : (
+              user.username?.charAt(0).toUpperCase()
+            )}
+          </div>
 
-          <div className="flex flex-col">
-            <p className="text-white text-lg font-semibold">{user.username}</p>
-            <p className="text-gray-400 text-sm">{statuss}</p>
+          <div>
+            <p className="text-white font-semibold text-sm">{user.username}</p>
+            {statuss && (
+              <p className="text-teal-400 text-xs mt-0.5">{statuss}</p>
+            )}
           </div>
         </div>
 
-        {/* Action Button */}
+        {/* Right — Menu Button */}
         <button
           onClick={() => setIcons(!icons)}
-          className="text-white text-2xl px-2 py-1 hover:bg-slate-800 rounded-lg transition"
+          className="text-slate-400 hover:text-white hover:bg-slate-800 w-8 h-8 rounded-lg flex items-center justify-center transition"
           aria-haspopup="true"
           aria-expanded={icons}
           aria-label="Open profile actions"
@@ -45,46 +48,38 @@ function ProfileHeader({ statuss }: ProfileHeaderProps) {
         </button>
       </div>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown */}
       {icons && (
         <div
-          className="mx-2 bg-slate-800 text-white rounded-lg shadow p-3 space-y-2 animate-fadeIn mb-2.5"
+          className="absolute right-0 top-16 z-50 w-52 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-2"
           role="menu"
         >
-          <button
-            className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
-            onClick={() => navigate('/settings')}
-            role="menuitem"
-          >
-            ✏️ Edit profile
-          </button>
+          {[
+            { icon: '✏️', label: 'Edit profile' },
+            { icon: '🖼️', label: 'Change photo' },
+            { icon: '⚙️', label: 'Settings' },
+          ].map(({ icon, label }) => (
+            <button
+              key={label}
+              className="w-full text-left flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white rounded-xl transition"
+              onClick={() => { navigate('/settings'); setIcons(false); }}
+              role="menuitem"
+            >
+              {icon} {label}
+            </button>
+          ))}
 
-          <button
-            className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
-            onClick={() => navigate('/settings')}
-            role="menuitem"
-          >
-            🖼️ Change photo
-          </button>
-
-          <button
-            className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
-            onClick={() => navigate('/settings')}
-            role="menuitem"
-          >
-            ⚙️ Settings
-          </button>
-
-          <button
-            className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
-            onClick={() => navigate('/settings')}
-            role="menuitem"
-          >
-            🚪 Logout
-          </button>
+          <div className="border-t border-slate-800 mt-1 pt-1">
+            <button
+              className="w-full text-left flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-xl transition"
+              role="menuitem"
+            >
+              🚪 Logout
+            </button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
