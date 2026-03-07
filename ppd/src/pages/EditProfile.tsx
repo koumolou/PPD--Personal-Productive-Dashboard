@@ -1,4 +1,9 @@
-export default function EditProfile({ close }) {
+interface EditProfileType {
+  close : ()=>void
+}
+
+
+ function EditProfile({ close } : EditProfileType) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-slate-900 p-5 rounded-xl w-[90%] max-w-md shadow-xl relative">
@@ -70,3 +75,5 @@ export default function EditProfile({ close }) {
     </div>
   );
 }
+
+export default EditProfile;

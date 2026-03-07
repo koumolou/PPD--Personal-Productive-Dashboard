@@ -1,12 +1,19 @@
 import { useContext } from 'react';
 import TaskList from '../component/TaskList';
 import HabitList from '../component/HabitList';
-import { TaskContext } from '../context/TaskContext';
+import { TaskContext  } from '../context/TaskContext';
 import { HabitContext } from '../context/HabitContext';
 
-function Tasks() {
-  const { tasks, setTasks } = useContext(TaskContext);
-  const { habits, setHabits } = useContext(HabitContext);
+const Tasks = () => {
+  const taskContext = useContext  (TaskContext);
+  if (!taskContext)
+    throw new Error('TaskContext must be used within TaskProvider');
+  const { tasks, setTasks } = taskContext;
+
+  const habitContext = useContext  ( HabitContext);
+  if (!habitContext)
+    throw new Error('HabitContext must be used within HabitProvider');
+  const { habits, setHabits } = habitContext;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
@@ -27,6 +34,6 @@ function Tasks() {
       </section>
     </div>
   );
-}
+};
 
 export default Tasks;

@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react';
-import { NotesContext } from '../context/NotesContext';
-import type { FormEvent } from "react";
+import { useContext, useState,  } from 'react';
+import type {FormEvent} from 'react'
+import { NotesContext, } from '../context/NotesContext';
 
 const AddNoteForm = () => {
   const context = useContext(NotesContext);
@@ -17,7 +17,7 @@ const AddNoteForm = () => {
 
     if (!title.trim() || !content.trim()) return;
 
-    addNote(title, content);
+    addNote( title, content ); // Pass object if your context expects a Note or adapt accordingly
 
     setTitle('');
     setContent('');

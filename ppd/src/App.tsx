@@ -1,33 +1,27 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import ProfilePage from "./component/ProfilePage.jsx";
-import Setting from "./pages/settings.jsx";
+import ProfilePage from "./component/ProfilePage";
+import Setting from "./pages/settings";
 
 import Navbar from "./component/navbar";
 import Sidebar from "./component/sidebar";
 import Notes from "./pages/Notes.jsx";
 import Tasks from "./pages/Tasks.jsx";
 
- export interface SideLink {
+ interface SideLink {
   key: number;
   name: string;
   icon: string;
   route: string;
 }
 
- export interface NavLink {
+ interface NavLink {
   name: string;
   path: string;
   key: number;
 }
 
-interface Navtype {
-  Links : NavLink,
-  isOpenMobile : boolean,
-  setIsOpenMobile : () => void 
 
-
-}
 
 function App() {
   const sidelinks: SideLink[] = [

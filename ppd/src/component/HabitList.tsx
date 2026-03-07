@@ -4,7 +4,7 @@ import type { Habit } from '../types';
 interface HabitListProps {
   habits : Habit [],
   setHabits :  React.Dispatch<React.SetStateAction<Habit[]>>
-  today : string,
+  today ?: string,
   className?: string,
   
 
