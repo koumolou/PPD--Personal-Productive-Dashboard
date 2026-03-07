@@ -1,31 +1,40 @@
 import type { Note } from "../types";
 
-
 interface NotelistItemType {
-  note : Note,
-  callbacks : {
-    onDelete :   (id: Note["id"]) => void;
-  }
+  note: Note;
+  callbacks: {
+    onDelete: (id: Note["id"]) => void;
+  };
 }
 
-function NoteItem({ note, callbacks } :NotelistItemType) {
+function NoteItem({ note, callbacks }: NotelistItemType) {
   const { onDelete } = callbacks;
+
   return (
-    <div className="border-o rounded p-4 mb-4 shadow text-center bg-slate-900">
-      <h3 className="font-semibold text-white text-lg">{note.title }</h3>
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-3 hover:border-slate-700 transition">
+      
+      {/* Title */}
+      <h3 className="text-white font-semibold text-base leading-snug">
+        {note.title}
+      </h3>
 
-      <p className="text-white mt-2">{note.content}</p>
+      {/* Content */}
+      <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">
+        {note.content}
+      </p>
 
-      <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
-        <span>Updated: {new Date(note.updatedAt).toLocaleDateString()}</span>
-
+      {/* Footer */}
+      <div className="flex justify-between items-center pt-2 border-t border-slate-800">
+        <span className="text-xs text-slate-600">
+          Updated {new Date(note.updatedAt).toLocaleDateString()}
+        </span>
         <button
+          type="button"
           onClick={() => onDelete(note.id)}
-          className="text-red-600 hover:underline"
+          className="text-xs text-slate-500 hover:text-red-400 hover:bg-red-500/10 px-2 py-1 rounded-lg transition"
         >
           Delete
         </button>
-       
       </div>
     </div>
   );

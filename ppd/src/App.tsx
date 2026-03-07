@@ -5,8 +5,8 @@ import Setting from "./pages/settings";
 
 import Navbar from "./component/navbar";
 import Sidebar from "./component/sidebar";
-import Notes from "./pages/Notes.jsx";
-import Tasks from "./pages/Tasks.jsx";
+import Notes from "./pages/Notes";
+import Tasks from "./pages/Tasks";
 
  interface SideLink {
   key: number;

@@ -2,7 +2,7 @@ import NoteItem from './NoteItems';
 import type { Note } from '../types';
 
 interface NoteListType {
-  notes: Note[]; // <-- must be an array of Note
+  notes: Note[];
   deleteNote: (id: Note["id"]) => void;
   className?: string;
 }
@@ -11,16 +11,22 @@ function NoteList({ notes, deleteNote, className }: NoteListType) {
   return (
     <div className={className}>
       {notes && notes.length > 0 ? (
-        notes.map((note) => (
-          <NoteItem
-            key={note.id}
-            note={note}
-            callbacks={{ onDelete: deleteNote }}
-          />
-        ))
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {notes.map((note) => (
+            <NoteItem
+              key={note.id}
+              note={note}
+              callbacks={{ onDelete: deleteNote }}
+            />
+          ))}
+        </div>
       ) : (
-        <div className="col-span-full rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
-          <p className="text-gray-500">No notes yet. Create your first note ✨</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center text-2xl mb-3">
+            📝
+          </div>
+          <p className="text-slate-400 text-sm font-medium">No notes yet</p>
+          <p className="text-slate-600 text-xs mt-1">Create your first note to get started</p>
         </div>
       )}
     </div>

@@ -179,6 +179,7 @@ function TaskProvider({ children } : TaskProp) {
     <TaskContext.Provider
       value={{
         tasks,
+        setTasks,
     
         addTask,
 

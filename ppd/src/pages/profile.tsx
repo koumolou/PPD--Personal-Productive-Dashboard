@@ -23,54 +23,59 @@ function Profile({
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-slate-900 rounded-2xl shadow-lg p-6 flex flex-col space-y-6">
-      {/* Top Section */}
-      <div className="flex flex-col md:flex-row items-center md:items-start justify-between space-y-4 md:space-y-0 md:space-x-6">
-        {/* Avatar */}
-        <div className="shrink-0">
-          <img
-            src={Avatar}
-            alt="User Avatar"
-            className="w-28 h-28 rounded-full border-4 border-slate-700"
-          />
-        </div>
+    <div className="max-w-xl mx-auto space-y-6">
 
-        {/* User Info */}
-        <div className="flex-1 text-center md:text-left">
-          <h1 className="text-2xl font-bold text-white">{username}</h1>
-          <p className="text-sm text-gray-400">{stat}</p>
-          <p className="text-gray-300 italic mt-1">{bio}</p>
-        </div>
+      {/* Profile Card */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
 
-        {/* Edit Button */}
-        <div className="flex flex-col items-center md:items-end">
+        {/* Top Section */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+
+          {/* Avatar */}
+          <div className="shrink-0">
+            <img
+              src={Avatar}
+              alt="User Avatar"
+              className="w-24 h-24 rounded-full border-2 border-slate-700 object-cover"
+            />
+          </div>
+
+          {/* Info */}
+          <div className="flex-1 text-center sm:text-left space-y-1">
+            <h1 className="text-white font-bold text-xl">{username}</h1>
+            <p className="text-teal-400 text-xs font-medium">{stat}</p>
+            <p className="text-slate-400 text-sm italic">{bio}</p>
+          </div>
+
+          {/* Edit Button */}
           <button
-            className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+            className="shrink-0 px-4 py-2 rounded-xl text-sm bg-teal-500 hover:bg-teal-400 text-white font-medium transition"
             onClick={() => setShowEdit(true)}
           >
             Edit Profile
           </button>
         </div>
+
+        {/* Divider */}
+        <div className="border-t border-slate-800 my-5" />
+
+        {/* User Details */}
+        <div className="space-y-2">
+          {Object.entries(userDetails).map(([key, value]) => (
+            <div
+              key={key}
+              className="flex justify-between items-center bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl"
+            >
+              <span className="text-slate-400 text-xs font-medium capitalize">
+                {key.replace(/([A-Z])/g, " $1")}
+              </span>
+              <span className="text-white text-xs font-semibold">{value}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="border-t border-slate-700"></div>
-
-      {/* User Details */}
-      <div className="space-y-3">
-        {Object.entries(userDetails).map(([key, value]) => (
-          <div
-            key={key}
-            className="flex justify-between bg-slate-800 p-3 rounded-lg"
-          >
-            <span className="font-medium capitalize">
-              {key.replace(/([A-Z])/g, " $1")}:
-            </span>
-            <span className="text-gray-300">{value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* EDIT PROFILE MODAL — rendered via Portal */}
+      {/* Edit Modal */}
       {showEdit && (
         <ModalPortal>
           <EditProfile close={() => setShowEdit(false)} />

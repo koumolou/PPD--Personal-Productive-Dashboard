@@ -1,16 +1,13 @@
-import { useContext, useState,  } from "react";
-import type {ChangeEvent, } from 'react';
-import type {FormEvent} from 'react'
+import { useContext, useState } from "react";
+import type { ChangeEvent, SyntheticEvent } from 'react';
 import { UserContext } from "../context/UserContext";
 import type { User } from "../types";
 
 interface EditProfileFormProps {
-  user: User 
+  user: User;
   updateUser: (user: Partial<User>) => void;
   onCancel: () => void;
 }
-
-
 
 function EditProfileForm({ user, updateUser, onCancel }: EditProfileFormProps) {
   const [formState, setFormState] = useState({
@@ -19,14 +16,12 @@ function EditProfileForm({ user, updateUser, onCancel }: EditProfileFormProps) {
     avatar: user.avatar,
   });
 
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement>
-  ) {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     updateUser(formState);
     onCancel();
@@ -34,47 +29,34 @@ function EditProfileForm({ user, updateUser, onCancel }: EditProfileFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block font-semibold">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={formState.username}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-      </div>
+      {[
+        { label: 'Username', name: 'username', type: 'text', value: formState.username },
+        { label: 'Email', name: 'email', type: 'email', value: formState.email },
+        { label: 'Avatar URL', name: 'avatar', type: 'text', value: formState.avatar },
+      ].map(({ label, name, type, value }) => (
+        <div key={name}>
+          <label className="block text-xs font-medium text-slate-400 mb-1.5">{label}</label>
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+          />
+        </div>
+      ))}
 
-      <div>
-        <label className="block font-semibold">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formState.email}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div>
-        <label className="block font-semibold">Avatar URL</label>
-        <input
-          type="text"
-          name="avatar"
-          value={formState.avatar}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div className="flex space-x-2">
-        <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
-          Save
+      <div className="flex gap-3 pt-2">
+        <button
+          type="submit"
+          className="px-4 py-2 rounded-xl text-sm bg-teal-500 hover:bg-teal-400 text-white font-medium transition"
+        >
+          Save Changes
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 bg-gray-400 text-white rounded"
+          className="px-4 py-2 rounded-xl text-sm text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-700 transition"
         >
           Cancel
         </button>
@@ -86,14 +68,24 @@ function EditProfileForm({ user, updateUser, onCancel }: EditProfileFormProps) {
 function ProfilePage() {
   const context = useContext(UserContext);
   if (!context) throw new Error("UserContext must be used within its Provider");
-
   const { user, updateUser } = context;
-
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Profile</h1>
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 max-w-lg mx-auto">
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-white font-semibold text-lg">Profile</h1>
+        {!isEditing && (
+          <button
+            className="px-4 py-2 rounded-xl text-sm bg-teal-500 hover:bg-teal-400 text-white font-medium transition"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit Profile
+          </button>
+        )}
+      </div>
 
       {isEditing ? (
         <EditProfileForm
@@ -102,23 +94,21 @@ function ProfilePage() {
           onCancel={() => setIsEditing(false)}
         />
       ) : (
-        <>
-          <div className="flex items-center space-x-4">
-            <img src={user.avatar} alt="avatar" className="w-24 h-24 rounded-full" />
-            <div className="flex flex-col">
-              <p className="font-semibold">{user.username}</p>
-              <p className="text-gray-500">{user.email}</p>
-              <p className="text-gray-400 text-sm">Joined: {user.joinedDate}</p>
-            </div>
+        /* Profile View */
+        <div className="flex items-center gap-5">
+          <div className="w-16 h-16 rounded-full bg-teal-500 border-2 border-slate-700 flex items-center justify-center text-white font-bold text-xl shrink-0">
+            {user.avatar ? (
+              <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full object-cover" />
+            ) : (
+              user.username?.charAt(0).toUpperCase()
+            )}
           </div>
-
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={() => setIsEditing(true)}
-          >
-            Edit Profile
-          </button>
-        </>
+          <div className="space-y-1">
+            <p className="text-white font-semibold text-sm">{user.username}</p>
+            <p className="text-slate-400 text-xs">{user.email}</p>
+            <p className="text-slate-600 text-xs">Joined {user.joinedDate}</p>
+          </div>
+        </div>
       )}
     </div>
   );
