@@ -1,16 +1,22 @@
 import Notelist from '../component/NoteLists';
+import AddNoteForm from '../component/AddNoteForm';
 import { useContext } from 'react';
 import { NotesContext } from '../context/NotesContext';
-import AddNoteForm from '../component/AddNoteForm';
+import type { Note} from '../types';
 
 function Notes() {
-  const { notes, deleteNote, addNote } = useContext(NotesContext);
+  // Consume context with proper typing
+  const contextnote = useContext(NotesContext);
+  if (!contextnote) throw new Error('NotesContext must be used within its Provider');
+
+  const { notes, deleteNote, addNote } = contextnote;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-800">My Notes</h1>
-        <AddNoteForm addNote={addNote} />
+        {/* Pass typed addNote function */}
+        <AddNoteForm />
       </div>
 
       <Notelist

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 interface ProfileHeaderProps {
-  statuss: string; // the status text you display under the username
+  statuss?: string; // the status text you display under the username
 }
 
 function ProfileHeader({ statuss }: ProfileHeaderProps) {

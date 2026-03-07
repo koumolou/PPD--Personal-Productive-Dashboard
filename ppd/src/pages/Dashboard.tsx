@@ -9,8 +9,15 @@ import { TaskContext } from '../context/TaskContext';
 import { HabitContext } from '../context/HabitContext';
 
 function Dashboard() {
-  const { addTask } = useContext(TaskContext);
-  const { addHabit } = useContext(HabitContext);
+
+  const contexttask =  useContext(TaskContext);
+
+  if (!contexttask) throw new Error ("")
+  const { addTask } = contexttask
+
+  const contexthabit =  useContext(HabitContext);
+  if (!contexthabit) throw new Error ("")
+  const { addHabit } = contexthabit
 
   return (
     <div className="space-y-10">

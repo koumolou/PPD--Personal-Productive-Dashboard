@@ -1,5 +1,6 @@
 import { useContext, useState,  } from "react";
-import type {ChangeEvent, FormEvent} from 'react';
+import type {ChangeEvent, } from 'react';
+import type {FormEvent} from 'react'
 import { UserContext } from "../context/UserContext";
 import type { User } from "../types";
 

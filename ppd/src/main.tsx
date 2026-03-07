@@ -2,13 +2,13 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App from './App.jsx';
-import UserProvider from './context/UserContext.jsx';
-import SidebarProvider from './context/SidebarContext.jsx';
-import ModalContextProvider from './context/ModalContext.jsx';
-import TaskProvider from './context/TaskContext.jsx';
-import HabitProvider from './context/HabitContext.jsx';
-import NotesProvider from './context/NotesContext.jsx';
+import App from './App';
+import UserProvider from './context/UserContext';
+import SidebarProvider from './context/SidebarContext';
+import ModalContextProvider from './context/ModalContext';
+import TaskProvider from './context/TaskContext';
+import HabitProvider from './context/HabitContext';
+import NotesProvider from './context/NotesContext';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
