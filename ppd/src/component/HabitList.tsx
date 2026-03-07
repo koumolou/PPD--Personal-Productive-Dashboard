@@ -1,16 +1,23 @@
 import HabitItem from './HabitItem';
-import Toast from './toast';
-import { ToastContext } from '../context/ToastContext';
-import { useContext } from 'react';
+import type { Habit } from '../types';
 
-function HabitList({ habits, setHabits, today, className }) {
-  const handleDelete = (id) => {
-    setHabits(habits.filter((h) => h.id !== id));
+interface HabitListProps {
+  habits : Habit [],
+  setHabits :  React.Dispatch<React.SetStateAction<Habit[]>>
+  today : string,
+  className?: string,
+  
+
+}
+
+function HabitList({ habits, setHabits, today, className } : HabitListProps) {
+  const handleDelete = (id : number) => {
+    setHabits(habits.filter((h : Habit) => h.id !== id));
   };
 
-  const toggleHabitToday = (habitId) => {
+  const toggleHabitToday = (habitId : number) => {
     setHabits(
-      habits.map((h) => {
+      habits.map((h : Habit) => {
         if (h.id !== habitId) return h;
 
         const doneToday = h.history.includes(today);
@@ -21,18 +28,18 @@ function HabitList({ habits, setHabits, today, className }) {
             ? h.history.filter((date) => date !== today) // remove
             : [...h.history, today], // add
         };
-      })
+      }),
     );
   };
   return (
     <div className={className}>
       {habits && habits.length > 0 ? (
-        habits.map((h) => (
+        habits.map((h :Habit) => (
           <HabitItem
             key={h.id}
             habit={h}
             callbacks={{
-              onToggle: toggleHabitToday,
+              toggleHabitToday: toggleHabitToday,
               onDelete: handleDelete,
             }}
           />
