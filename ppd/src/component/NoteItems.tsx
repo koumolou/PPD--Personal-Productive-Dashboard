@@ -1,11 +1,18 @@
-import { useContext } from 'react';
-import { NotesContext } from '../context/NotesContext';
+import type { Note } from "../types";
 
-function NoteItem({ note, callbacks }) {
+
+interface NotelistItemType {
+  note : Note,
+  callbacks : {
+    onDelete :   (id: Note["id"]) => void;
+  }
+}
+
+function NoteItem({ note, callbacks } :NotelistItemType) {
   const { onDelete } = callbacks;
   return (
     <div className="border-o rounded p-4 mb-4 shadow text-center bg-slate-900">
-      <h3 className="font-semibold text-white text-lg">{note.title}</h3>
+      <h3 className="font-semibold text-white text-lg">{note.title }</h3>
 
       <p className="text-white mt-2">{note.content}</p>
 
@@ -18,7 +25,7 @@ function NoteItem({ note, callbacks }) {
         >
           Delete
         </button>
-        {console.log(note.id)}
+       
       </div>
     </div>
   );

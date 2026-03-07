@@ -1,13 +1,18 @@
 import { useContext, useState } from 'react';
 import { NotesContext } from '../context/NotesContext';
+import type { FormEvent } from "react";
 
 const AddNoteForm = () => {
-  const { addNote } = useContext(NotesContext);
+  const context = useContext(NotesContext);
+  if (!context) throw new Error('NotesContext must be used within a NotesProvider');
+
+  const { addNote } = context;
+
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) return;
@@ -67,6 +72,7 @@ const AddNoteForm = () => {
                 </button>
               </div>
             </form>
+
           </div>
         </div>
       )}

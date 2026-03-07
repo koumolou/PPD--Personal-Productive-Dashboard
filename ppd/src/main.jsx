@@ -8,7 +8,6 @@ import SidebarProvider from './context/SidebarContext.jsx';
 import ModalContextProvider from './context/ModalContext.jsx';
 import TaskProvider from './context/TaskContext.jsx';
 import HabitProvider from './context/HabitContext.jsx';
-import ToastProvider from './context/ToastContext.jsx';
 import NotesProvider from './context/NotesContext.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -18,16 +17,14 @@ createRoot(document.getElementById('root')).render(
           <ModalContextProvider>
             <TaskProvider>
               <HabitProvider>
-                <ToastProvider>
-                  <NotesProvider>
-                    <App />
-                  </NotesProvider>
-                </ToastProvider>
+                <NotesProvider>
+                  <App />
+                </NotesProvider>
               </HabitProvider>
             </TaskProvider>
           </ModalContextProvider>
         </SidebarProvider>
       </UserProvider>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

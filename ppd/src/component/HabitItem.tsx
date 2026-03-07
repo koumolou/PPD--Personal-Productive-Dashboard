@@ -1,8 +1,20 @@
-function HabitItem({ habit, callbacks }) {
+import type { Habit } from "../types";
 
-  const {id, title, completed} = habit
-  const {toggleHabitToday, onDelete} = callbacks
+interface HabitItemProps {
+  habit: {
+    id : number,
+    title : string,
+    completed ?: boolean
+  }
+  callbacks: {
+    toggleHabitToday: (id: Habit["id"]) => void;
+    onDelete: (id: Habit["id"]) => void;
+  };
+}
 
+function HabitItem({ habit, callbacks }: HabitItemProps) {
+  const { id, title, completed } = habit;
+  const { toggleHabitToday, onDelete } = callbacks;
 
   return (
     <div className="p-4 m-2 bg-white shadow rounded flex items-center justify-between">
@@ -24,7 +36,7 @@ function HabitItem({ habit, callbacks }) {
         Delete
       </button>
     </div>
-  )
+  );
 }
 
-export default HabitItem
+export default HabitItem;

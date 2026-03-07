@@ -8,17 +8,24 @@ import Progressbar from './progressbar';
 import HabitList from './HabitList';
 import TaskList from './TaskList';
 
+
 function DashboardInsights() {
-  const {
-    tasks,
+ 
+const context = useContext(TaskContext);
+if (!context) throw new Error ("");
+ const {
     setTasks,
+    tasks,
     totalTasks,
     completedTasksCount,
     pendingTasks,
     completionPercentage,
     todayVsYesterdayInsight,
     mostProductiveDayInsight,
-  } = useContext(TaskContext);
+  } = context; 
+
+  const context1 = useContext(HabitContext);
+  if(!context) throw new Error (""); 
 
   const {
     habits,
@@ -27,7 +34,7 @@ function DashboardInsights() {
     totalHabits,
     activeStreakCount,
     habitDoneToday,
-  } = useContext(HabitContext);
+  } = context1
 
   return (
     <div className="space-y-12">
@@ -44,12 +51,14 @@ function DashboardInsights() {
               icon="✅"
               title="Tasks Completed"
               trend={completedTasksCount}
+               value = {null}
             />
-            <Statscard icon="⏳" title="Tasks Pending" trend={pendingTasks} />
+            <Statscard icon="⏳" title="Tasks Pending" trend={pendingTasks}  />
             <Statscard
               icon="📊"
               title="Completion %"
               trend={`${completionPercentage.toFixed(0)}%`}
+              value = {null}
             />
           </div>
         </div>
@@ -64,6 +73,7 @@ function DashboardInsights() {
               icon="🔥"
               title="Active Streaks"
               trend={activeStreakCount}
+              value = {null}
             />
             <Statscard
               icon="📈"
@@ -73,6 +83,7 @@ function DashboardInsights() {
                   ? 0
                   : ((habitDoneToday / totalHabits) * 100).toFixed(0)
               }%`}
+              value = {null}
             />
           </div>
         </div>

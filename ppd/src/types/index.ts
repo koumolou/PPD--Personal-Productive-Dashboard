@@ -34,6 +34,7 @@ export interface User  {
 
 export interface TaskContextType {
     tasks : Task[],
+    setTasks : React.Dispatch<React.SetStateAction<Task[]>>
     addTask :  (title : string) => void,
     totalTasks : number, 
     completedTasksCount : number,
@@ -74,6 +75,7 @@ export  interface MostProductiveDayInsight {
 
   export interface HabitContextType {
     habits : Habit[],
+    setHabits : React.Dispatch<React.SetStateAction<Habit[]>>
     today : string,
     habitDoneToday : number, 
     activeStreakCount : number,
@@ -81,7 +83,8 @@ export  interface MostProductiveDayInsight {
     getActiveHabitsCount : ()=>number,
     getCurrentStreak : (history : string[] ) => number,
     addHabit : (title : string) => void
-
+    totalHabits : number
+  
  
 
 

@@ -1,7 +1,17 @@
-function TaskItem({ task, callbacks }) {
+import type { Task } from "../types";
+
+interface TaskItemProps {
+  task: Task;
+  callbacks: {
+    onToggle: (id: Task["id"]) => void;
+    onDelete: (id: Task["id"]) => void;
+  };
+}
+
+function TaskItem({ task, callbacks }: TaskItemProps) {
   if (!task) return null;
 
-  const { id, title, completed, completedAt } = task;
+  const { id, title, completed } = task;
   const { onToggle, onDelete } = callbacks;
 
   return (
@@ -12,7 +22,7 @@ function TaskItem({ task, callbacks }) {
           checked={completed}
           onChange={() => onToggle(id)}
         />
-        <p className={completed ? 'line-through text-gray-400' : ''}>{title}</p>
+        <p className={completed ? "line-through text-gray-400" : ""}>{title}</p>
       </div>
       <button
         onClick={() => onDelete(id)}

@@ -96,7 +96,8 @@ function HabitProvider({ children } : HabitProp) {
     <HabitContext.Provider
       value={{
         habits,
-   
+        totalHabits, 
+        setHabits, 
         today,
         habitDoneToday,
         activeStreakCount,

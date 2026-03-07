@@ -1,12 +1,18 @@
-import { useState, useContext, useN } from 'react';
-import { UserContext } from '../context/UserContext';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
-function ProfileHeader({ statuss }) {
+interface ProfileHeaderProps {
+  statuss: string; // the status text you display under the username
+}
+
+function ProfileHeader({ statuss }: ProfileHeaderProps) {
   const [icons, setIcons] = useState(false);
+  const context = useContext(UserContext);
 
-  const { user } = useContext(UserContext);
+  if (!context) throw new Error('UserContext must be used within its Provider');
 
+  const { user } = context;
   const navigate = useNavigate();
 
   return (
@@ -31,6 +37,9 @@ function ProfileHeader({ statuss }) {
         <button
           onClick={() => setIcons(!icons)}
           className="text-white text-2xl px-2 py-1 hover:bg-slate-800 rounded-lg transition"
+          aria-haspopup="true"
+          aria-expanded={icons}
+          aria-label="Open profile actions"
         >
           ⋮
         </button>
@@ -38,10 +47,14 @@ function ProfileHeader({ statuss }) {
 
       {/* Dropdown Menu */}
       {icons && (
-        <div className="mx-2 bg-slate-800 text-white rounded-lg shadow p-3 space-y-2 animate-fadeIn mb-2.5">
+        <div
+          className="mx-2 bg-slate-800 text-white rounded-lg shadow p-3 space-y-2 animate-fadeIn mb-2.5"
+          role="menu"
+        >
           <button
             className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
             onClick={() => navigate('/settings')}
+            role="menuitem"
           >
             ✏️ Edit profile
           </button>
@@ -49,6 +62,7 @@ function ProfileHeader({ statuss }) {
           <button
             className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
             onClick={() => navigate('/settings')}
+            role="menuitem"
           >
             🖼️ Change photo
           </button>
@@ -56,6 +70,7 @@ function ProfileHeader({ statuss }) {
           <button
             className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
             onClick={() => navigate('/settings')}
+            role="menuitem"
           >
             ⚙️ Settings
           </button>
@@ -63,6 +78,7 @@ function ProfileHeader({ statuss }) {
           <button
             className="text-left hover:bg-slate-700 w-full px-2 py-1 rounded"
             onClick={() => navigate('/settings')}
+            role="menuitem"
           >
             🚪 Logout
           </button>

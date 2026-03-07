@@ -1,7 +1,17 @@
 import TaskItem from './TaskItems';
+import type { Task } from '../types';
 
-function TaskList({ tasks, setTasks, ClassName }) {
-  const toggleTask = (id) => {
+interface TaskListProp {
+  tasks : Task[],
+  setTasks : React.Dispatch<React.SetStateAction<Task[]>>,
+  ClassName?: string
+  
+
+
+}
+
+function TaskList({ tasks, setTasks, ClassName } : TaskListProp ) {
+  const toggleTask = (id : number) => {
     setTasks((prev) =>
       prev.map((task) => {
         if (task.id !== id) return task;
@@ -17,7 +27,7 @@ function TaskList({ tasks, setTasks, ClassName }) {
     );
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id : number) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 

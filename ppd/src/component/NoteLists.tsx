@@ -1,6 +1,13 @@
 import NoteItem from './NoteItems';
+import type { Note } from '../types';
 
-function NoteList({ notes, deleteNote, className }) {
+interface NoteListType {
+  notes: Note[]; // <-- must be an array of Note
+  deleteNote: (id: Note["id"]) => void;
+  className?: string;
+}
+
+function NoteList({ notes, deleteNote, className }: NoteListType) {
   return (
     <div className={className}>
       {notes && notes.length > 0 ? (
@@ -13,9 +20,7 @@ function NoteList({ notes, deleteNote, className }) {
         ))
       ) : (
         <div className="col-span-full rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
-          <p className="text-gray-500">
-            No notes yet. Create your first note ✨
-          </p>
+          <p className="text-gray-500">No notes yet. Create your first note ✨</p>
         </div>
       )}
     </div>
