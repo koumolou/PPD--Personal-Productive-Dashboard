@@ -75,6 +75,13 @@ npm run dev
 
 ---
 
+## 👤 Author
+Koumolou Fatihu
+
+GitHub: @learningsin2024-source
+Email: learningsin2024@gmail.com
+Location: Abidjan, Côte d'Ivoire
+
 ## TypeScript Highlights
 
 This project was migrated from JavaScript to TypeScript as a learning exercise. Key patterns used:
