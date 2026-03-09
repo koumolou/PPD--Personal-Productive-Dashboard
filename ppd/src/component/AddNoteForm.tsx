@@ -32,7 +32,11 @@ const AddNoteForm = () => {
 
       {/* Modal */}
       {isOpen && (
+<<<<<<< HEAD
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+=======
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+>>>>>>> 0452377287db3690f2b5eb1a1672905f36a7a102
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
